@@ -6,7 +6,6 @@ import (
 	"image/jpeg"
 	"image/png"
 	"os"
-	"path/filepath"
 	"strings"
 
 	"github.com/shinnosuke-K/gopherdojo-studyroom/kadai1/shinnosuke-K/file"
@@ -51,7 +50,7 @@ func Do(dirPath string, before string, after string, delImg bool) {
 	}
 
 	if delImg {
-		if err := deleteImg(files); err != nil {
+		if err := file.DeleteImg(files); err != nil {
 			fmt.Println(err)
 			os.Exit(1)
 		}
@@ -144,18 +143,6 @@ func convertToGIF(f file.File) error {
 
 	if err := gif.Encode(destFile, imgFile, nil); err != nil {
 		return err
-	}
-	return nil
-}
-
-// ファイルを削除
-// delete file
-func deleteImg(files []file.File) error {
-	for n := range files {
-		path := filepath.Join(files[n].Dir, files[n].Name)
-		if err := os.Remove(path); err != nil {
-			return fmt.Errorf("%w: Couldn't delete %s", err, path)
-		}
 	}
 	return nil
 }

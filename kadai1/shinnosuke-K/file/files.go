@@ -1,6 +1,7 @@
 package file
 
 import (
+	"fmt"
 	"image"
 	"io/ioutil"
 	"os"
@@ -57,4 +58,16 @@ func DecodeToImg(dir string, name string) (image.Image, error) {
 
 	imgFile, _, err := image.Decode(file)
 	return imgFile, err
+}
+
+// ファイルを削除
+// delete file
+func DeleteImg(files []File) error {
+	for n := range files {
+		path := filepath.Join(files[n].Dir, files[n].Name)
+		if err := os.Remove(path); err != nil {
+			return fmt.Errorf("%w: Couldn't delete %s", err, path)
+		}
+	}
+	return nil
 }
