@@ -44,9 +44,8 @@ func GetImgFiles(path string, beforeEx string) ([]File, error) {
 func ExistDir(path string) bool {
 	if f, err := os.Stat(path); os.IsNotExist(err) || !f.IsDir() {
 		return false
-	} else {
-		return true
 	}
+	return true
 }
 
 func DecodeToImg(dir string, name string) (image.Image, error) {
