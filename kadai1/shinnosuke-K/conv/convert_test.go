@@ -1,6 +1,10 @@
 package conv
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/shinnosuke-K/gopherdojo-studyroom/kadai1/shinnosuke-K/file"
+)
 
 func Test_checkOpt(t *testing.T) {
 	type args struct {
@@ -66,6 +70,171 @@ func Test_checkOpt(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := checkOpt(tt.args.ex); (err != nil) != tt.wantErr {
 				t.Errorf("checkOpt() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func Test_convertToPNG(t *testing.T) {
+	type args struct {
+		f file.File
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "拡張子が連続（jpeg）",
+			args: args{f: struct {
+				Dir       string
+				Name      string
+				Extension string
+			}{Dir: "../dummyImg/jpeg", Name: "1.jpeg.jpeg", Extension: ".jpeg"}},
+			wantErr: false,
+		},
+		{
+			name: "拡張子が連続（jpg）",
+			args: args{f: struct {
+				Dir       string
+				Name      string
+				Extension string
+			}{Dir: "../dummyImg/jpg", Name: "1.jpg.jpg", Extension: ".jpg"}},
+			wantErr: false,
+		},
+		{
+			name: "拡張子が連続（png）",
+			args: args{f: struct {
+				Dir       string
+				Name      string
+				Extension string
+			}{Dir: "../dummyImg/png", Name: "1.png.png", Extension: ".png"}},
+			wantErr: false,
+		},
+		{
+			name: "拡張子が連続（gif）",
+			args: args{f: struct {
+				Dir       string
+				Name      string
+				Extension string
+			}{Dir: "../dummyImg/", Name: "1.gif.gif", Extension: ".gif"}},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := convertToPNG(tt.args.f); (err != nil) != tt.wantErr {
+				t.Errorf("convertToPNG() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func Test_convertToJPG(t *testing.T) {
+	type args struct {
+		f file.File
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "拡張子が連続（jpeg）",
+			args: args{f: struct {
+				Dir       string
+				Name      string
+				Extension string
+			}{Dir: "../dummyImg/jpeg", Name: "1.jpeg.jpeg", Extension: ".jpeg"}},
+			wantErr: false,
+		},
+		{
+			name: "拡張子が連続（jpg）",
+			args: args{f: struct {
+				Dir       string
+				Name      string
+				Extension string
+			}{Dir: "../dummyImg/jpg", Name: "1.jpg.jpg", Extension: ".jpg"}},
+			wantErr: false,
+		},
+		{
+			name: "拡張子が連続（png）",
+			args: args{f: struct {
+				Dir       string
+				Name      string
+				Extension string
+			}{Dir: "../dummyImg/png", Name: "1.png.png", Extension: ".png"}},
+			wantErr: false,
+		},
+		{
+			name: "拡張子が連続（gif）",
+			args: args{f: struct {
+				Dir       string
+				Name      string
+				Extension string
+			}{Dir: "../dummyImg/", Name: "1.gif.gif", Extension: ".gif"}},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := convertToJPG(tt.args.f); (err != nil) != tt.wantErr {
+				t.Errorf("convertToJPG() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func Test_convertToGIF(t *testing.T) {
+	type args struct {
+		f file.File
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "拡張子が連続（jpeg）",
+			args: args{f: struct {
+				Dir       string
+				Name      string
+				Extension string
+			}{Dir: "../dummyImg/jpeg", Name: "1.jpeg.jpeg", Extension: ".jpeg"}},
+			wantErr: false,
+		},
+		{
+			name: "拡張子が連続（jpg）",
+			args: args{f: struct {
+				Dir       string
+				Name      string
+				Extension string
+			}{Dir: "../dummyImg/jpg", Name: "1.jpg.jpg", Extension: ".jpg"}},
+			wantErr: false,
+		},
+		{
+			name: "拡張子が連続（png）",
+			args: args{f: struct {
+				Dir       string
+				Name      string
+				Extension string
+			}{Dir: "../dummyImg/png", Name: "1.png.png", Extension: ".png"}},
+			wantErr: false,
+		},
+		{
+			name: "拡張子が連続（gif）",
+			args: args{f: struct {
+				Dir       string
+				Name      string
+				Extension string
+			}{Dir: "../dummyImg/", Name: "1.gif.gif", Extension: ".gif"}},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := convertToGIF(tt.args.f); (err != nil) != tt.wantErr {
+				t.Errorf("convertToGIF() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

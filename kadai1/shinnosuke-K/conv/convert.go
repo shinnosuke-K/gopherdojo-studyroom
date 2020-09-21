@@ -94,7 +94,7 @@ func convertToPNG(f file.File) error {
 		return err
 	}
 
-	destFileName := strings.Replace(f.Name, f.Extension, ".png", 1)
+	destFileName := f.Name[:strings.LastIndex(f.Name, f.Extension)] + ".png"
 	destFile, err := os.Create(destFileName)
 	if err != nil {
 		return err
@@ -114,7 +114,7 @@ func convertToJPG(f file.File) error {
 		return err
 	}
 
-	destFileName := strings.Replace(f.Name, f.Extension, ".jpg", 1)
+	destFileName := f.Name[:strings.LastIndex(f.Name, f.Extension)] + ".jpg"
 	destFile, err := os.Create(destFileName)
 	if err != nil {
 		return err
@@ -134,7 +134,7 @@ func convertToGIF(f file.File) error {
 		return err
 	}
 
-	destFileName := strings.Replace(f.Name, f.Extension, ".gif", 1)
+	destFileName := f.Name[:strings.LastIndex(f.Name, f.Extension)] + ".gif"
 	destFile, err := os.Create(destFileName)
 	if err != nil {
 		return err
