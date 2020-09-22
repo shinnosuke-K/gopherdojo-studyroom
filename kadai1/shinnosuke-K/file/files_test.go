@@ -96,3 +96,32 @@ func TestGetImgFiles1(t *testing.T) {
 		})
 	}
 }
+
+func TestExistDir1(t *testing.T) {
+	type args struct {
+		path string
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{
+			name: "存在する",
+			args: args{path: "../file"},
+			want: true,
+		},
+		{
+			name: "存在しない",
+			args: args{path: "../dummy"},
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ExistDir(tt.args.path); got != tt.want {
+				t.Errorf("ExistDir() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
