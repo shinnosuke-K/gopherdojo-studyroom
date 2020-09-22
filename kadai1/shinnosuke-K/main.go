@@ -1,0 +1,26 @@
+package main
+
+import (
+	"flag"
+	"log"
+	"os"
+
+	"github.com/shinnosuke-K/gopherdojo-studyroom/kadai1/shinnosuke-K/conv"
+)
+
+func main() {
+	pwd, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	dirPath := flag.String("path", pwd, "Directory path to convert image file's extension")
+	before := flag.String("b", "jpeg", "Image format before change")
+	after := flag.String("a", "png", "Image format after change")
+	delImg := flag.Bool("d", false, "Whether to delete the image before conversion")
+	flag.Parse()
+
+	if err := conv.Do(*dirPath, *before, *after, *delImg); err != nil {
+		log.Fatal(err)
+	}
+}
