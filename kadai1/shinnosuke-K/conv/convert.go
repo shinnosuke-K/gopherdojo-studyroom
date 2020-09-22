@@ -1,6 +1,7 @@
 package conv
 
 import (
+	"errors"
 	"fmt"
 	"image/gif"
 	"image/jpeg"
@@ -19,42 +20,37 @@ const (
 	GIF  string = "gif"
 )
 
-func Do(dirPath string, before string, after string, delImg bool) {
+func Do(dirPath string, before string, after string, delImg bool) error {
 
 	if ok := file.ExistDir(dirPath); !ok {
-		fmt.Println("not found dir")
-		os.Exit(1)
+		return errors.New("not found directory")
 	}
 
 	if err := checkOpt(before); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		return err
 	}
 
 	if err := checkOpt(after); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		return err
 	}
 
 	files, err := file.GetImgFiles(dirPath, before)
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		return err
 	}
 
 	for n := range files {
 		if err := convert(after, files[n]); err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+			return err
 		}
 	}
 
 	if delImg {
 		if err := file.DeleteImg(files); err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+			return err
 		}
 	}
+	return nil
 }
 
 // 指定した拡張子が正しいか確認

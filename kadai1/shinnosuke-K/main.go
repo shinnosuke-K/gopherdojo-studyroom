@@ -20,5 +20,7 @@ func main() {
 	delImg := flag.Bool("d", false, "Whether to delete the image before conversion")
 	flag.Parse()
 
-	conv.Do(*dirPath, *before, *after, *delImg)
+	if err := conv.Do(*dirPath, *before, *after, *delImg); err != nil {
+		log.Fatal(err)
+	}
 }
