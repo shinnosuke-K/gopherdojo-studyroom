@@ -14,6 +14,8 @@ type File struct {
 	Extension string
 }
 
+// GetImgFiles 関数のみ使用
+// グローバルで宣言していることで、関数が再帰的に呼ばれてもファイルをスライスへ追加していく
 var fileList = make([]File, 0)
 
 func GetImgFiles(path string, beforeEx string) ([]File, error) {
