@@ -58,7 +58,12 @@ func DecodeToImg(dir string, name string) (image.Image, error) {
 	defer file.Close()
 
 	imgFile, _, err := image.Decode(file)
-	return imgFile, err
+
+	if err != nil {
+		return nil, err
+	}
+
+	return imgFile, nil
 }
 
 // ファイルを削除
