@@ -65,80 +65,32 @@ func checkOpt(ex string) error {
 	return fmt.Errorf("image convert error: invalid image extension '%s'", ex)
 }
 
-func convert(afterEx string, file file.File) error {
-	switch afterEx {
+func convert(afterExt string, f file.File) error {
+	imgFile, err := file.DecodeToImg(f.Dir, f.Name)
+	if err != nil {
+		return err
+	}
+
+	destFileName := f.Name[:strings.LastIndex(f.Name, f.Extension)] + "." + afterExt
+	destFile, err := os.Create(destFileName)
+	if err != nil {
+		return err
+	}
+	defer destFile.Close()
+
+	switch afterExt {
 	case PNG:
-		if err := convertToPNG(file); err != nil {
-			return fmt.Errorf("%w:Couldn't convert to png", err)
+		if err := png.Encode(destFile, imgFile); err != nil {
+			return err
 		}
 	case JPEG, JPG:
-		if err := convertToJPG(file); err != nil {
-			return fmt.Errorf("%w:Couldn't convert to jpg or jpeg", err)
+		if err := jpeg.Encode(destFile, imgFile, nil); err != nil {
+			return err
 		}
 	case GIF:
-		if err := convertToGIF(file); err != nil {
-			return fmt.Errorf("%w:Couldn't convert to gif", err)
+		if err := gif.Encode(destFile, imgFile, nil); err != nil {
+			return err
 		}
-	}
-	return nil
-}
-
-func convertToPNG(f file.File) error {
-
-	imgFile, err := file.DecodeToImg(f.Dir, f.Name)
-	if err != nil {
-		return err
-	}
-
-	destFileName := f.Name[:strings.LastIndex(f.Name, f.Extension)] + ".png"
-	destFile, err := os.Create(destFileName)
-	if err != nil {
-		return err
-	}
-	defer destFile.Close()
-
-	if err := png.Encode(destFile, imgFile); err != nil {
-		return err
-	}
-	return nil
-}
-
-func convertToJPG(f file.File) error {
-
-	imgFile, err := file.DecodeToImg(f.Dir, f.Name)
-	if err != nil {
-		return err
-	}
-
-	destFileName := f.Name[:strings.LastIndex(f.Name, f.Extension)] + ".jpg"
-	destFile, err := os.Create(destFileName)
-	if err != nil {
-		return err
-	}
-	defer destFile.Close()
-
-	if err := jpeg.Encode(destFile, imgFile, nil); err != nil {
-		return err
-	}
-	return nil
-}
-
-func convertToGIF(f file.File) error {
-
-	imgFile, err := file.DecodeToImg(f.Dir, f.Name)
-	if err != nil {
-		return err
-	}
-
-	destFileName := f.Name[:strings.LastIndex(f.Name, f.Extension)] + ".gif"
-	destFile, err := os.Create(destFileName)
-	if err != nil {
-		return err
-	}
-	defer destFile.Close()
-
-	if err := gif.Encode(destFile, imgFile, nil); err != nil {
-		return err
 	}
 	return nil
 }
